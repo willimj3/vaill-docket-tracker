@@ -45,15 +45,11 @@ except ImportError as e:
     sys.exit(1)
 
 from docket_classifier import classify  # shared with build_docket_yaml.py
+from case_config import DOCKET_IDS, is_trial  # docket set from case-meta.yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DOCKETS = ROOT / "data" / "dockets"
 
-DOCKET_IDS = {
-    "ndcal": 72379655,
-    "dccir": 72380208,
-    "ca9": 73136734,
-}
 CL_API = "https://www.courtlistener.com/api/rest/v4"
 
 
@@ -122,7 +118,7 @@ def load_existing(court: str) -> list[dict]:
 
 def already_present(entry: dict, court: str, existing: list[dict], existing_descs: set[str]) -> bool:
     en = entry.get("entry_number")
-    if court == "ndcal" and en is not None:
+    if is_trial(court) and en is not None:
         if any(e.get("entry") == str(en) for e in existing):
             return True
     docs = entry.get("recap_documents") or []
@@ -162,7 +158,7 @@ def build_new_row(entry: dict, court: str, importance: str) -> dict:
     """Build a YAML row mirroring the schema in data/dockets/*-entries.yaml."""
     docs = entry.get("recap_documents") or []
     chosen = next((d for d in docs if d.get("is_available")), docs[0] if docs else None)
-    if court == "ndcal":
+    if is_trial(court):
         entry_id = (
             str(entry.get("entry_number"))
             if entry.get("entry_number") is not None
@@ -226,10 +222,9 @@ def status_from_entry(entry: dict) -> dict:
 
 def keys_for_entry(entry: dict, court: str) -> list[str]:
     keys: list[str] = []
-    if court in ("ndcal", "ca9"):
-        en = entry.get("entry_number")
-        if en is not None:
-            keys.append(f"{court}-{en}")
+    en = entry.get("entry_number")
+    if en is not None:
+        keys.append(f"{court}-{en}")
     for d in entry.get("recap_documents") or []:
         dn = d.get("document_number")
         if dn:

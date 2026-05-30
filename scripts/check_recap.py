@@ -28,14 +28,11 @@ except ImportError:
     print("requests required: pip3 install requests", file=sys.stderr)
     sys.exit(1)
 
+from case_config import DOCKET_IDS  # docket set from case-meta.yaml
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT_PATH = ROOT / "data" / "dockets" / "recap-status.json"
 
-DOCKET_IDS = {
-    "ndcal": 72379655,
-    "dccir": 72380208,
-    "ca9": 73136734,
-}
 CL_API = "https://www.courtlistener.com/api/rest/v4"
 
 
@@ -91,10 +88,9 @@ def _desc_key(text: str) -> str:
 def keys_for_entry(entry: dict, court: str) -> list[str]:
     """Return all the lookup keys we should index this entry under."""
     keys: list[str] = []
-    if court == "ndcal" or court == "ca9":
-        en = entry.get("entry_number")
-        if en is not None:
-            keys.append(f"{court}-{en}")
+    en = entry.get("entry_number")
+    if en is not None:
+        keys.append(f"{court}-{en}")
     docs = entry.get("recap_documents") or []
     for d in docs:
         dn = d.get("document_number")

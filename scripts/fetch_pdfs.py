@@ -48,17 +48,11 @@ except ImportError:
     print("requests required: pip3 install requests", file=sys.stderr)
     sys.exit(1)
 
+from case_config import DOCKET_IDS, is_trial  # docket set from case-meta.yaml
+
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE_DIR = ROOT / "source-docs"
 SOURCE_DIR.mkdir(parents=True, exist_ok=True)
-
-DOCKET_IDS = {
-    "ndcal": 72379655,
-    "dccir": 72380208,
-    "ca9": 73136734,
-}
-TRIAL_COURTS = {"ndcal"}  # use entry_number lookup
-APPELLATE_COURTS = {"dccir", "ca9"}  # use recap-document direct lookup
 
 CL_API = "https://www.courtlistener.com/api/rest/v4"
 
@@ -232,7 +226,7 @@ def main() -> None:
 
     courts = [args.court] if args.court else list(DOCKET_IDS)
     for court in courts:
-        if court in TRIAL_COURTS:
+        if is_trial(court):
             process_trial(court)
         else:
             process_appellate(court)

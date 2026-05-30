@@ -29,8 +29,8 @@ COURTLISTENER_TOKEN=xxx python3 scripts/fetch_pdfs.py   [--court ndcal|dccir|ca9
 
 ### Data flow
 
-1. `data/case-meta.yaml` is the top-level source of truth: case name, status summary, the three docket records (with CourtListener IDs).
-2. Each docket has its own entry file at `data/dockets/{ndcal,dccir,ca9}-entries.yaml`. The three docket IDs (`ndcal`, `dccir`, `ca9`) are a closed enum used across `lib/data.ts`, the cron handlers, and the Python scripts — adding a fourth docket means touching all three.
+1. `data/case-meta.yaml` is the top-level source of truth: case name, status summary, and the `dockets:` list — each docket's `id`, `court`, `courtlistener_id`, and `level: trial|appellate`.
+2. Each docket has its own entry file at `data/dockets/<id>-entries.yaml`. **The docket set is driven entirely by the `dockets:` list in `case-meta.yaml` — adding or changing a docket is a `case-meta.yaml` edit plus its entries file, with no code changes.** The TS/build side reads a generated, client-safe `lib/dockets.config.ts` (regenerated from case-meta by `scripts/gen-dockets-config.mjs`, run automatically by the `predev`/`prebuild`/`pretypecheck` hooks, so client components can resolve docket labels/URLs without `fs`); the Python scripts read the same YAML via `scripts/case_config.py` (`DOCKET_IDS`, `is_trial()`). The `level` field is what splits trial-court handling (dedup/key by entry number) from appellate handling.
 3. `lib/data.ts` is the single YAML loader. It uses `yaml.JSON_SCHEMA` deliberately so ISO date strings like `2026-05-23` stay as strings instead of being auto-cast to JS `Date` (which breaks formatting). Reuse `readYaml<T>` rather than calling `js-yaml` directly.
 4. `data/dockets/recap-status.json` is a sidecar that drives the "PDF not in RECAP" badge on docket pages. Produced by `scripts/check_recap.py` and refreshed by `scripts/sync_dockets.py`. `recapStatusFor()` looks up entries by `<court>-<entry>`, `<court>-doc:<docnum>`, and description-prefix hash, in that order. Optional — the site degrades gracefully if missing.
 

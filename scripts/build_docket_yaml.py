@@ -24,17 +24,11 @@ except ImportError:
     sys.exit(1)
 
 from docket_classifier import classify  # shared with sync_dockets.py
+from case_config import DOCKET_IDS  # docket set from case-meta.yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCKETS_TSV = ROOT / "dockets"
 DOCKETS_YAML = ROOT / "data" / "dockets"
-
-# CourtListener docket IDs (mirror data/case-meta.yaml)
-DOCKET_IDS = {
-    "ndcal": 72379655,
-    "dccir": 72380208,
-    "ca9": 73136734,
-}
 
 
 def parse_documents(field: str | None) -> list[dict[str, str]]:
@@ -99,16 +93,15 @@ def yaml_header(court: str, source: str) -> str:
 def main() -> None:
     DOCKETS_YAML.mkdir(parents=True, exist_ok=True)
 
-    sources = {
-        "ndcal": DOCKETS_TSV / "ndcal-entries-full.tsv",
-        "dccir": DOCKETS_TSV / "dccir-entries.tsv",
-        "ca9": DOCKETS_TSV / "ninth-cir-entries.tsv",
-    }
+    # One TSV per configured docket: dockets/<court>-entries.tsv. Dockets
+    # without a local TSV are skipped — use sync_dockets.py to pull those
+    # straight from CourtListener instead.
+    sources = {court: DOCKETS_TSV / f"{court}-entries.tsv" for court in DOCKET_IDS}
 
     for court, tsv_path in sources.items():
         if not tsv_path.exists():
-            print(f"missing {tsv_path}", file=sys.stderr)
-            sys.exit(1)
+            print(f"skip {court}: no TSV at {tsv_path}", file=sys.stderr)
+            continue
         entries = build_entries(tsv_path, court)
         out = DOCKETS_YAML / f"{court}-entries.yaml"
         with out.open("w", encoding="utf-8") as f:
