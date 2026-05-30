@@ -5,9 +5,10 @@ import { DocketFilter, type EntryWithStatus } from '@/components/DocketFilter';
 import { DocketEntryRow } from '@/components/DocketEntryRow';
 import { PageHeading } from '@/components/PageHeading';
 import { StatusDot } from '@/components/StatusDot';
+import { DOCKET_IDS } from '@/lib/dockets.config';
 
-const VALID_IDS = ['ndcal', 'dccir', 'ca9'] as const;
-type DocketId = (typeof VALID_IDS)[number];
+const VALID_IDS = DOCKET_IDS;
+type DocketId = string;
 
 export function generateStaticParams() {
   return VALID_IDS.map((id) => ({ id }));

@@ -5,10 +5,14 @@
   "description": "Explainer and tracker site for Anthropic PBC v. U.S. Department of War.",
   "license": "MIT",
   "scripts": {
+    "gen:config": "node scripts/gen-dockets-config.mjs",
+    "predev": "npm run gen:config",
     "dev": "next dev",
+    "prebuild": "npm run gen:config",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "pretypecheck": "npm run gen:config",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

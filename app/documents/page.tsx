@@ -1,4 +1,5 @@
 import { loadAllDocketEntries, loadCaseMeta } from '@/lib/data';
+import { DOCKET_IDS } from '@/lib/dockets.config';
 import { PageHeading } from '@/components/PageHeading';
 import { shortDate, courtLabel } from '@/lib/format';
 
@@ -9,13 +10,13 @@ export default function DocumentsPage() {
   const all = loadAllDocketEntries();
 
   type Row = {
-    court: 'ndcal' | 'dccir' | 'ca9';
+    court: string;
     entry: string | null;
     date: string;
     description: string;
   };
 
-  const highRows: Row[] = (['ndcal', 'dccir', 'ca9'] as const).flatMap((court) =>
+  const highRows: Row[] = DOCKET_IDS.flatMap((court) =>
     all[court]
       .filter((e) => e.importance === 'high')
       .map((e) => ({

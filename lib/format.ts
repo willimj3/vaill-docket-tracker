@@ -1,4 +1,5 @@
 import { format, parseISO } from 'date-fns';
+import { docketConfig } from '@/lib/dockets.config';
 
 /** Long form: "March 26, 2026". */
 export function longDate(iso: string): string {
@@ -37,36 +38,14 @@ export function monthKey(iso: string): string {
 }
 
 export function courtLabel(id: string): string {
-  switch (id) {
-    case 'ndcal':
-      return 'N.D. Cal.';
-    case 'dccir':
-      return 'D.C. Cir.';
-    case 'ca9':
-      return '9th Cir.';
-    default:
-      return id;
-  }
+  return docketConfig(id)?.court ?? id;
 }
-
-const CASE_SLUGS: Record<string, string> = {
-  ndcal: 'anthropic-pbc-v-us-department-of-war',
-  dccir: 'anthropic-pbc-v-united-states-department-of-war',
-  ca9: 'anthropic-pbc-v-united-states-department-of-war-et-al',
-};
-
-const DOCKET_CL_IDS: Record<string, number> = {
-  ndcal: 72379655,
-  dccir: 72380208,
-  ca9: 73136734,
-};
 
 /** Root CourtListener URL for the docket (no entry segment). */
 export function clDocketUrl(court: string): string | null {
-  const docketId = DOCKET_CL_IDS[court];
-  const slug = CASE_SLUGS[court];
-  if (!docketId || !slug) return null;
-  return `https://www.courtlistener.com/docket/${docketId}/${slug}/`;
+  const d = docketConfig(court);
+  if (!d?.courtlistener_id || !d.slug) return null;
+  return `https://www.courtlistener.com/docket/${d.courtlistener_id}/${d.slug}/`;
 }
 
 /**
@@ -84,11 +63,10 @@ export function clEntryUrl(
   entryNumber: string | number | null | undefined,
   documentNumber?: string | null,
 ): string | null {
-  const docketId = DOCKET_CL_IDS[court];
-  const slug = CASE_SLUGS[court];
-  if (!docketId || !slug) return null;
+  const d = docketConfig(court);
+  if (!d?.courtlistener_id || !d.slug) return null;
 
-  const isTrial = court === 'ndcal';
+  const isTrial = d.level === 'trial';
   let pathComponent: string | null = null;
   if (documentNumber) {
     pathComponent = documentNumber;
@@ -99,5 +77,5 @@ export function clEntryUrl(
   if (!pathComponent) {
     return clDocketUrl(court);
   }
-  return `https://www.courtlistener.com/docket/${docketId}/${pathComponent}/${slug}/`;
+  return `https://www.courtlistener.com/docket/${d.courtlistener_id}/${pathComponent}/${d.slug}/`;
 }

@@ -12,6 +12,7 @@ last_updated: 2026-05-23
 dockets:
   - id: ndcal
     court: N.D. Cal.
+    level: trial
     judge: Rita F. Lin
     case_no: 3:26-cv-01996-RFL
     courtlistener_id: 72379655
@@ -21,6 +22,7 @@ dockets:
 
   - id: dccir
     court: D.C. Cir.
+    level: appellate
     panel: Henderson, Katsas, Rao
     case_no: 26-1049
     courtlistener_id: 72380208
@@ -30,6 +32,7 @@ dockets:
 
   - id: ca9
     court: 9th Cir.
+    level: appellate
     case_no: 26-2011
     courtlistener_id: 73136734
     courtlistener_url: https://www.courtlistener.com/docket/73136734/anthropic-pbc-v-united-states-department-of-war-et-al/

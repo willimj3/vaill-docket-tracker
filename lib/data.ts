@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import yaml from 'js-yaml';
+import { DOCKET_IDS } from '@/lib/dockets.config';
 
 const ROOT = path.join(process.cwd(), 'data');
 
@@ -18,8 +19,9 @@ export type DocketStatus = 'green' | 'amber' | 'gray' | 'red';
 export type Importance = 'high' | 'medium' | 'low';
 
 export interface DocketMeta {
-  id: 'ndcal' | 'dccir' | 'ca9';
+  id: string;
   court: string;
+  level?: 'trial' | 'appellate';
   judge?: string;
   panel?: string;
   case_no: string;
@@ -50,7 +52,7 @@ export interface TimelineEvent {
 
 export interface WhatsNextEntry {
   date: string;
-  court?: 'ndcal' | 'dccir' | 'ca9';
+  court?: string;
   title: string;
   detail?: string;
   source?: {
@@ -138,7 +140,7 @@ export interface HoldingTheory {
 
 export interface Holding {
   date: string;
-  court: 'ndcal' | 'dccir' | 'ca9';
+  court: string;
   judge?: string;
   panel?: string;
   caption: string;
@@ -230,7 +232,7 @@ export function loadCaseMeta(): CaseMeta {
 function latestActivityDate(stored: string): string {
   const dates: string[] = [stored];
   const all = loadAllDocketEntries();
-  for (const court of ['ndcal', 'dccir', 'ca9'] as const) {
+  for (const court of DOCKET_IDS) {
     for (const e of all[court]) if (e?.date) dates.push(e.date);
   }
   for (const u of loadUpdates()) if (u?.date) dates.push(u.date);
@@ -280,7 +282,7 @@ export function loadGlossary(): GlossaryEntry[] {
 // ---------- amicus brief discovery ----------
 
 export interface AmicusBrief {
-  court: 'ndcal' | 'dccir' | 'ca9';
+  court: string;
   date: string;
   entry: string | null;
   description: string;
@@ -301,7 +303,7 @@ export function briefsForAmicus(amicus: Amicus): AmicusBrief[] {
   const found: AmicusBrief[] = [];
   const seen = new Set<string>();
 
-  for (const court of ['ndcal', 'dccir', 'ca9'] as const) {
+  for (const court of DOCKET_IDS) {
     for (const entry of all[court]) {
       const desc = (entry.description || '').toLowerCase();
       if (!desc.includes('amicus')) continue;
@@ -324,16 +326,12 @@ export function briefsForAmicus(amicus: Amicus): AmicusBrief[] {
   return found;
 }
 
-export function loadDocketEntries(id: 'ndcal' | 'dccir' | 'ca9'): DocketEntry[] {
+export function loadDocketEntries(id: string): DocketEntry[] {
   return readYaml<DocketEntry[]>(`dockets/${id}-entries.yaml`);
 }
 
-export function loadAllDocketEntries(): Record<'ndcal' | 'dccir' | 'ca9', DocketEntry[]> {
-  return {
-    ndcal: loadDocketEntries('ndcal'),
-    dccir: loadDocketEntries('dccir'),
-    ca9: loadDocketEntries('ca9'),
-  };
+export function loadAllDocketEntries(): Record<string, DocketEntry[]> {
+  return Object.fromEntries(DOCKET_IDS.map((id) => [id, loadDocketEntries(id)]));
 }
 
 export interface RecapStatus {
