@@ -40,3 +40,7 @@ next-env.d.ts
 
 # Large source PDFs (we mirror metadata; keep the actual binaries out of git)
 source-docs/*.pdf
+
+# Python
+__pycache__/
+*.pyc
