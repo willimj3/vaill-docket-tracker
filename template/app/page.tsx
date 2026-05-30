@@ -65,11 +65,9 @@ export default function HomePage() {
           About this site
         </h2>
         <p>
-          This site explains the <em>Anthropic PBC v. U.S. Department of War</em> litigation
-          across all three federal forums it occupies: the Northern District of California (the
-          merits action), the D.C. Circuit (a parallel FASCSA petition), and the Ninth Circuit
-          (the government's stayed interlocutory appeal). It is maintained by the Vanderbilt AI
-          Law Lab and is updated as the litigation moves.
+          This site explains the <em>{meta.case_name}</em> litigation across the{' '}
+          {meta.dockets.length === 1 ? 'forum' : `${meta.dockets.length} forums`} it occupies
+          ({meta.dockets.map((d) => d.court).join(', ')}), and is updated as the litigation moves.
         </p>
         <p>
           The site is file-driven. Every fact lives in a YAML or MDX file in this repository, and

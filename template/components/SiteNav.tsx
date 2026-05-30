@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { loadCaseMeta } from '@/lib/data';
 
 const NAV = [
   { href: '/', label: 'Overview' },
@@ -12,6 +13,8 @@ const NAV = [
 ];
 
 export function SiteNav() {
+  const { short_name } = loadCaseMeta();
+  const parts = short_name.split(/\s+v\.?\s+/i);
   return (
     <header className="border-b border-rule bg-paper/95 backdrop-blur sticky top-0 z-30">
       <div className="mx-auto max-w-page px-6 lg:px-10 py-3 flex flex-wrap items-baseline gap-x-6 gap-y-2">
@@ -19,7 +22,13 @@ export function SiteNav() {
           href="/"
           className="ui font-semibold text-ink no-underline tracking-tight whitespace-nowrap"
         >
-          Anthropic <span className="text-muted font-normal">v.</span> DoW
+          {parts.length === 2 ? (
+            <>
+              {parts[0]} <span className="text-muted font-normal">v.</span> {parts[1]}
+            </>
+          ) : (
+            short_name
+          )}
         </Link>
         <nav className="ui flex flex-wrap gap-x-4 gap-y-1 text-sm">
           {NAV.map((item) => (

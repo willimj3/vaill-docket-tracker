@@ -5,9 +5,8 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { loadCaseMeta } from '@/lib/data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
-const SITE_NAME = 'Anthropic v. Department of War';
-const SITE_DESC =
-  'An explainer and litigation tracker for Anthropic PBC v. U.S. Department of War, covering the parallel proceedings in N.D. Cal., the D.C. Circuit, and the Ninth Circuit.';
+const SITE_NAME = loadCaseMeta().case_name;
+const SITE_DESC = `Explainer and litigation tracker for ${SITE_NAME}.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -16,7 +15,6 @@ export const metadata: Metadata = {
     template: `%s · ${SITE_NAME}`,
   },
   description: SITE_DESC,
-  authors: [{ name: 'Vanderbilt AI Law Lab' }],
   robots: { index: true, follow: true },
   openGraph: {
     siteName: SITE_NAME,
