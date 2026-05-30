@@ -8,7 +8,7 @@ export default function AboutPage() {
     <div className="prose-page">
       <PageHeading
         title="About this site"
-        lede="A focused explainer and live tracker for one piece of litigation, maintained by the Vanderbilt AI Law Lab."
+        lede="A focused explainer and live tracker for one piece of litigation."
       />
 
       <section>
@@ -55,8 +55,7 @@ export default function AboutPage() {
           dockets, and a daily monitor surfaces new filings for editorial review.
         </p>
         <p>
-          To suggest a correction, open an issue on the project's GitHub repository or email{' '}
-          <a href="mailto:mark.j.williams@vanderbilt.edu">mark.j.williams@vanderbilt.edu</a>.
+          To suggest a correction, open an issue on the project's GitHub repository.
         </p>
       </section>
 

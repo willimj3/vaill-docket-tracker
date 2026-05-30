@@ -1,0 +1,27 @@
+{
+  "name": "docket-tracker",
+  "owner": {
+    "name": "Mark Williams",
+    "email": "mark.j.williams@vanderbilt.edu"
+  },
+  "description": "Single-plugin marketplace for docket-tracker: scaffold and maintain a file-driven Next.js litigation tracker for any federal case, fed by CourtListener.",
+  "plugins": [
+    {
+      "name": "docket-tracker",
+      "source": "./",
+      "description": "Scaffold and maintain a reproducible, file-driven Next.js litigation-tracker website for any federal case. Pulls docket data from CourtListener, classifies filing importance, tracks RECAP/PDF availability, and drafts a verifiable legal-narrative layer for the user to review. Provides /docket-tracker:new (scaffold a new tracker) and /docket-tracker:sync (refresh an existing one).",
+      "author": {
+        "name": "Mark Williams",
+        "email": "mark.j.williams@vanderbilt.edu"
+      },
+      "category": "legal",
+      "tags": [
+        "courtlistener",
+        "litigation",
+        "docket",
+        "nextjs",
+        "legal"
+      ]
+    }
+  ]
+}

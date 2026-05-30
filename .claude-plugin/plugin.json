@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "docket-tracker",
+  "displayName": "Docket Tracker",
+  "version": "0.1.0",
+  "description": "Scaffold and maintain a file-driven Next.js litigation-tracker site for any federal case, fed by CourtListener.",
+  "author": {
+    "name": "Mark Williams"
+  },
+  "license": "MIT",
+  "keywords": [
+    "litigation",
+    "courtlistener",
+    "tracker",
+    "docket",
+    "legal",
+    "nextjs",
+    "pacer",
+    "recap"
+  ]
+}

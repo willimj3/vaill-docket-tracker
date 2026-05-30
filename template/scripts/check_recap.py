@@ -28,7 +28,7 @@ except ImportError:
     print("requests required: pip3 install requests", file=sys.stderr)
     sys.exit(1)
 
-from case_config import DOCKET_IDS  # docket set from case-meta.yaml
+from case_config import DOCKET_IDS, USER_AGENT  # docket set from case-meta.yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_PATH = ROOT / "data" / "dockets" / "recap-status.json"
@@ -39,7 +39,7 @@ CL_API = "https://www.courtlistener.com/api/rest/v4"
 def auth_headers() -> dict[str, str]:
     h = {
         "Accept": "application/json",
-        "User-Agent": "anthropic-v-dow-monitor (vanderbilt-ai-law-lab)",
+        "User-Agent": USER_AGENT,
     }
     tok = os.environ.get("COURTLISTENER_TOKEN")
     if tok:

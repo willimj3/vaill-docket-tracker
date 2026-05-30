@@ -10,7 +10,7 @@ export interface FeedItem {
 
 const parser = new Parser({
   timeout: 15_000,
-  headers: { 'User-Agent': 'anthropic-v-dow-monitor (vanderbilt-ai-law-lab)' },
+  headers: { 'User-Agent': process.env.MONITOR_USER_AGENT || 'docket-tracker' },
 });
 
 export async function fetchFeed(url: string): Promise<FeedItem[]> {
@@ -25,9 +25,9 @@ export async function fetchFeed(url: string): Promise<FeedItem[]> {
   }));
 }
 
-/** Returns true iff the item mentions "anthropic" AND any relevance term. */
-export function isRelevant(item: FeedItem, terms: string[]): boolean {
+/** True iff the item mentions the anchor term AND any relevance term. */
+export function isRelevant(item: FeedItem, terms: string[], anchor: string): boolean {
   const hay = `${item.title} ${item.contentSnippet}`.toLowerCase();
-  if (!hay.includes('anthropic')) return false;
+  if (anchor && !hay.includes(anchor.toLowerCase())) return false;
   return terms.some((t) => hay.includes(t.toLowerCase()));
 }

@@ -115,7 +115,7 @@ export async function GET(req: Request) {
 
   // Compose plain-text digest.
   const lines: string[] = [];
-  lines.push(`Anthropic v. DoW — RECAP digest`);
+  lines.push(`${process.env.MONITOR_LABEL || 'Docket tracker'} — RECAP digest`);
   lines.push(`Since: ${since}`);
   lines.push(``);
   for (const f of findings) {
@@ -138,9 +138,9 @@ export async function GET(req: Request) {
   const digest = lines.join('\n');
 
   const emailResult = await sendEmail({
-    to: ['mark.j.williams@vanderbilt.edu'],
-    from: 'monitor@anthropic-v-dow.org',
-    subject: `[Anthropic v. DoW] RECAP digest ${since.slice(0, 10)}`,
+    to: (process.env.MONITOR_RECIPIENTS || 'you@example.org').split(',').map((s) => s.trim()),
+    from: process.env.MONITOR_FROM_EMAIL || 'monitor@example.org',
+    subject: `[${process.env.MONITOR_LABEL || 'Docket tracker'}] RECAP digest ${since.slice(0, 10)}`,
     text: digest,
   });
 

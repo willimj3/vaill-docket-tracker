@@ -6,7 +6,7 @@
  *
  * Env vars required:
  *   GITHUB_TOKEN  — a fine-grained PAT with `issues: write` on this repo.
- *   GITHUB_REPO   — "owner/name", e.g. "vanderbilt-ai-law-lab/anthropic-v-dow".
+ *   GITHUB_REPO   — "owner/name", e.g. "your-org/your-tracker-repo".
  */
 
 const GH_BASE = 'https://api.github.com';

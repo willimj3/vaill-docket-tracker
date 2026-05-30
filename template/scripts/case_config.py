@@ -11,6 +11,7 @@ directory on sys.path, so `from case_config import DOCKET_IDS` resolves.
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -22,6 +23,10 @@ except ImportError:
 
 ROOT = Path(__file__).resolve().parent.parent
 CASE_META = ROOT / "data" / "case-meta.yaml"
+
+# HTTP User-Agent for CourtListener requests; override per deployment via the
+# MONITOR_USER_AGENT env var.
+USER_AGENT = os.environ.get("MONITOR_USER_AGENT") or "docket-tracker"
 
 
 def load_dockets() -> list[dict]:

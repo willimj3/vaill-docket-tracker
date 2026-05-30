@@ -48,7 +48,7 @@ except ImportError:
     print("requests required: pip3 install requests", file=sys.stderr)
     sys.exit(1)
 
-from case_config import DOCKET_IDS, is_trial  # docket set from case-meta.yaml
+from case_config import DOCKET_IDS, is_trial, USER_AGENT  # docket set from case-meta.yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE_DIR = ROOT / "source-docs"
@@ -58,7 +58,7 @@ CL_API = "https://www.courtlistener.com/api/rest/v4"
 
 HEADERS_BASE = {
     "Accept": "application/json",
-    "User-Agent": "anthropic-v-dow-fetch (vanderbilt-ai-law-lab)",
+    "User-Agent": USER_AGENT,
 }
 
 

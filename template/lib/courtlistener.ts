@@ -27,7 +27,7 @@ export class CourtListener {
     return {
       Authorization: `Token ${this.token}`,
       Accept: 'application/json',
-      'User-Agent': 'anthropic-v-dow-monitor (vanderbilt-ai-law-lab)',
+      'User-Agent': process.env.MONITOR_USER_AGENT || 'docket-tracker',
     };
   }
 

@@ -2,7 +2,7 @@
 # Email sending is disabled until RESEND_API_KEY or POSTMARK_TOKEN is set.
 
 recipients:
-  - mark.j.williams@vanderbilt.edu
+  - you@example.org
 
 # Email format chosen by the maintainer: plain text only.
 email_format: plain
@@ -20,6 +20,10 @@ sources:
 # A news item is added to data/news.yaml (with approved: false) when both:
 #   - it mentions "Anthropic" (case-insensitive), AND
 #   - it mentions at least one of these terms.
+# The anchor term every news item must mention (case-insensitive), in addition
+# to at least one relevance_term below. Set it to your lead party / case keyword.
+anchor_term: anthropic
+
 relevance_terms:
   - Department of War
   - Hegseth

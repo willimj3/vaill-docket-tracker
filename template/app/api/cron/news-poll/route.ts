@@ -27,7 +27,11 @@ interface AlertsConfig {
   email_format: string;
   sources: { rss: string[] };
   relevance_terms: string[];
+  anchor_term: string;
 }
+
+// Case label + sender for the digest email; override per deployment.
+const LABEL = process.env.MONITOR_LABEL || 'Docket tracker';
 
 export async function GET(req: Request) {
   const guard = requireCronAuth(req);
@@ -49,7 +53,7 @@ export async function GET(req: Request) {
       const items = await fetchFeed(url);
       for (const it of items) {
         if (Date.parse(it.isoDate) < since) continue;
-        if (!isRelevant(it, cfg.relevance_terms)) continue;
+        if (!isRelevant(it, cfg.relevance_terms, cfg.anchor_term)) continue;
         collected.push(it);
       }
     } catch (err) {
@@ -67,7 +71,7 @@ export async function GET(req: Request) {
 
   // Build plain-text digest.
   const lines: string[] = [];
-  lines.push(`Anthropic v. DoW — ${isMonday ? 'weekly' : 'daily'} news digest`);
+  lines.push(`${LABEL} — ${isMonday ? 'weekly' : 'daily'} news digest`);
   lines.push(`Window: last ${lookbackHours}h`);
   lines.push(``);
   if (unique.length === 0) {
@@ -90,8 +94,8 @@ export async function GET(req: Request) {
 
   const emailResult = await sendEmail({
     to: cfg.recipients,
-    from: 'monitor@anthropic-v-dow.org',
-    subject: `[Anthropic v. DoW] ${isMonday ? 'Weekly' : 'Daily'} news digest`,
+    from: process.env.MONITOR_FROM_EMAIL || 'monitor@example.org',
+    subject: `[${LABEL}] ${isMonday ? 'Weekly' : 'Daily'} news digest`,
     text: lines.join('\n'),
   });
 

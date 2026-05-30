@@ -45,7 +45,7 @@ except ImportError as e:
     sys.exit(1)
 
 from docket_classifier import classify  # shared with build_docket_yaml.py
-from case_config import DOCKET_IDS, is_trial  # docket set from case-meta.yaml
+from case_config import DOCKET_IDS, is_trial, USER_AGENT  # docket set from case-meta.yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA_DOCKETS = ROOT / "data" / "dockets"
@@ -61,7 +61,7 @@ def auth_headers() -> dict[str, str]:
     return {
         "Accept": "application/json",
         "Authorization": f"Token {tok}",
-        "User-Agent": "anthropic-v-dow-sync (vanderbilt-ai-law-lab)",
+        "User-Agent": USER_AGENT,
     }
 
 
