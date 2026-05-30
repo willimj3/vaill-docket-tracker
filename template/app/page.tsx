@@ -22,7 +22,14 @@ export default function HomePage() {
           Filed {longDate(meta.filed)} · Last updated {longDate(meta.last_updated)}
         </p>
         <h1>{meta.case_name}</h1>
-        <p className="text-muted mt-4 text-lg whitespace-pre-line">{meta.status_summary}</p>
+        <div className="text-muted mt-4 text-lg space-y-3">
+          {meta.status_summary
+            .trim()
+            .split(/\n\s*\n/)
+            .map((para, i) => (
+              <p key={i}>{para.replace(/\s*\n\s*/g, ' ')}</p>
+            ))}
+        </div>
         <p className="mt-6">
           <Link href="#the-case-in-full">Read the full explainer ↓</Link>
         </p>

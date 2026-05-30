@@ -7,7 +7,7 @@ import { longDate } from '@/lib/format';
 export const metadata = {
   title: 'Press',
   description:
-    'Curated commentary and auto-aggregated news coverage of Anthropic v. Department of War.',
+    'Curated commentary and news coverage of the litigation.',
 };
 
 const COMMENTARY_TAG_LABEL: Record<string, string> = {

@@ -1,14 +1,14 @@
 {
-  "name": "anthropic-v-dow",
+  "name": "docket-tracker-site",
   "version": "0.1.0",
   "private": true,
-  "description": "Explainer and tracker site for Anthropic PBC v. U.S. Department of War.",
+  "description": "File-driven litigation tracker site (scaffolded by the docket-tracker plugin).",
   "license": "MIT",
   "scripts": {
     "gen:config": "node scripts/gen-dockets-config.mjs",
     "predev": "npm run gen:config",
     "dev": "next dev",
-    "prebuild": "npm run gen:config",
+    "prebuild": "npm run gen:config && node scripts/check-generic.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

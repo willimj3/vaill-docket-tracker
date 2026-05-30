@@ -69,7 +69,7 @@ export function DocketFilter({
             type="text"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="e.g. amicus, opposition, Hegseth…"
+            placeholder="e.g. order, motion, brief…"
             className="w-full border border-rule rounded-sm px-3 py-2 bg-white focus:outline-none focus:border-ink"
           />
         </label>

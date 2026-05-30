@@ -24,7 +24,7 @@ export default function PartiesPage() {
     <div>
       <PageHeading
         title="Parties"
-        lede="The plaintiff, the eighteen named federal defendants, and the amici who filed in support (and opposition) — with direct links to every amicus brief on CourtListener."
+        lede="The parties to the case and the amici who filed — with direct links to every amicus brief on CourtListener."
       />
 
       <nav className="ui text-sm flex flex-wrap gap-x-5 gap-y-1 mb-12 pb-3 border-b border-rule">
@@ -56,10 +56,7 @@ export default function PartiesPage() {
 
       <section id="defendants" className="scroll-mt-24 mb-12">
         <h2 className="text-2xl border-b border-rule pb-2 mb-6">Defendants</h2>
-        <p className="text-muted max-w-prose">
-          Eighteen named agencies and officials; the order names all "Defendant Agencies" plus
-          Secretary Hegseth and the Executive Office of the President.
-        </p>
+        <p className="text-muted max-w-prose">The agencies and officials named as defendants.</p>
         <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3 mt-4">
           {p.defendants.map((d) => (
             <li key={d.name} className="border-b border-rule pb-3">

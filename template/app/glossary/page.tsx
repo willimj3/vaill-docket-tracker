@@ -37,7 +37,7 @@ export default function GlossaryPage() {
     <div>
       <PageHeading
         title="Glossary"
-        lede="Plain-language definitions of the statutes, doctrines, and case-specific terms used elsewhere on this site. Link to any entry directly by its anchor (e.g. /glossary#fascsa)."
+        lede="Plain-language definitions of the statutes, doctrines, and case-specific terms used elsewhere on this site. Link to any entry directly by its anchor (e.g. /glossary#apa)."
       />
 
       <section className="mb-12 max-w-prose">

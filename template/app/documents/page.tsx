@@ -33,7 +33,7 @@ export default function DocumentsPage() {
     <div>
       <PageHeading
         title="Documents"
-        lede="High-importance filings across all three dockets, plus local source documents mirrored in this repository."
+        lede="High-importance filings across the case's dockets, plus any local source documents mirrored in this repository."
       />
 
       <section className="mb-12">
@@ -66,23 +66,10 @@ export default function DocumentsPage() {
 
       <section className="max-w-prose">
         <h2>Local source documents</h2>
-        <p>
-          Plain-text extracts mirrored in this repository for reference:
-        </p>
-        <ul className="list-disc pl-5">
-          <li>
-            <code>source-docs/01-complaint.txt</code> — text of the original complaint (Dkt. 1,
-            N.D. Cal.)
-          </li>
-          <li>
-            <code>source-docs/134-pi-opinion.txt</code> — text of Judge Lin's PI opinion
-            (Dkt. 134, N.D. Cal.)
-          </li>
-        </ul>
         <p className="text-muted">
-          The PDFs themselves are not committed to git; they can be regenerated from the
-          CourtListener URLs above. See <code>scripts/fetch_pdfs.py</code> (TBD) for a
-          maintainer-friendly batch download.
+          Plain-text extracts of key filings are mirrored under <code>source-docs/</code> where
+          available. The PDFs themselves are not committed to git; they can be fetched from the
+          CourtListener links above with <code>scripts/fetch_pdfs.py</code>.
         </p>
       </section>
     </div>

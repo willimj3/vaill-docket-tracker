@@ -43,7 +43,7 @@ export default function LawPage() {
     <div>
       <PageHeading
         title="Law"
-        lede="What courts have decided, what Anthropic has pleaded, and the doctrinal questions the case puts in play. The per-issue detail pages live under /issues/[slug] for deep-linking."
+        lede="What the courts have decided, what the parties have pleaded, and the open doctrinal questions. The per-issue detail pages live under /issues/[slug] for deep-linking."
       />
 
       <nav className="ui text-sm flex flex-wrap gap-x-5 gap-y-1 mb-12 pb-3 border-b border-rule">
@@ -115,7 +115,7 @@ export default function LawPage() {
       <section id="claims" className="scroll-mt-24 mb-20">
         <h2 className="text-2xl border-b border-rule pb-2 mb-6">Claims</h2>
         <p className="text-muted max-w-prose mb-6">
-          The five counts in Anthropic's complaint, with status at PI and current status.
+          The counts in the complaint, with status at the preliminary-injunction stage and currently.
         </p>
         <ol className="space-y-10 max-w-prose">
           {claims.map((c) => {
