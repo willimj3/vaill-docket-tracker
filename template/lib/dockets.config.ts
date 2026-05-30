@@ -13,25 +13,11 @@ export interface DocketConfig {
 
 export const DOCKETS: DocketConfig[] = [
   {
-    "id": "ndcal",
-    "court": "N.D. Cal.",
+    "id": "example",
+    "court": "Example Court",
     "level": "trial",
-    "courtlistener_id": 72379655,
-    "slug": "anthropic-pbc-v-us-department-of-war"
-  },
-  {
-    "id": "dccir",
-    "court": "D.C. Cir.",
-    "level": "appellate",
-    "courtlistener_id": 72380208,
-    "slug": "anthropic-pbc-v-united-states-department-of-war"
-  },
-  {
-    "id": "ca9",
-    "court": "9th Cir.",
-    "level": "appellate",
-    "courtlistener_id": 73136734,
-    "slug": "anthropic-pbc-v-united-states-department-of-war-et-al"
+    "courtlistener_id": 0,
+    "slug": ""
   }
 ];
 

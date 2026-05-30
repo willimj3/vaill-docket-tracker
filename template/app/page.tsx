@@ -37,7 +37,7 @@ export default function HomePage() {
 
       <section>
         <h2 className="ui text-xs uppercase tracking-widest text-muted mb-4 border-b border-rule pb-2">
-          The three dockets
+          {meta.dockets.length === 1 ? 'The docket' : `The ${meta.dockets.length} dockets`}
         </h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {meta.dockets.map((d) => (

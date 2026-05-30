@@ -74,11 +74,11 @@ export default function PartiesPage() {
       <section id="counsel" className="scroll-mt-24 mb-12 max-w-prose">
         <h2 className="text-2xl border-b border-rule pb-2 mb-6">Counsel for the government</h2>
         <p>
-          <strong>Trial (N.D. Cal.):</strong> {p.counsel_for_defendants.trial.firm}.{' '}
+          <strong>Trial:</strong> {p.counsel_for_defendants.trial.firm}.{' '}
           {p.counsel_for_defendants.trial.attorneys.join(', ')}.
         </p>
         <p>
-          <strong>Appellate (D.C. Cir., 9th Cir.):</strong>{' '}
+          <strong>Appellate:</strong>{' '}
           {p.counsel_for_defendants.appellate.firm}.{' '}
           {p.counsel_for_defendants.appellate.attorneys.join(', ')}.
         </p>
