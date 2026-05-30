@@ -29,15 +29,14 @@ This plugin does not pretend a website about a lawsuit can be fully automated. I
 This repository is its own Claude Code marketplace. From inside Claude Code:
 
 ```text
-/plugin marketplace add <this-repo-url-or-local-path>
-/plugin install docket-tracker
+/plugin marketplace add willimj3/vaill-docket-tracker
+/plugin install docket-tracker@docket-tracker
 ```
 
-For a local clone:
+To hack on it locally instead, load it straight from a clone without installing:
 
-```text
-/plugin marketplace add /Users/you/Documents/docket-tracker
-/plugin install docket-tracker
+```bash
+claude --plugin-dir /path/to/vaill-docket-tracker
 ```
 
 Restart Claude Code (or reload plugins) when prompted, and the two skills, the agent, and the CourtListener connector become available.
@@ -108,8 +107,8 @@ You need a few accounts to run the full pipeline. The site itself builds and pre
 
 ```text
 # 1. Add this repo as a marketplace and install the plugin
-/plugin marketplace add <this-repo-url-or-local-path>
-/plugin install docket-tracker
+/plugin marketplace add willimj3/vaill-docket-tracker
+/plugin install docket-tracker@docket-tracker
 
 # 2. Scaffold a tracker for your case
 /docket-tracker:new \"Acme Corp v. United States\"

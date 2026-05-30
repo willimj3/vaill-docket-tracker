@@ -8,6 +8,8 @@
     "name": "Mark Williams"
   },
   "license": "MIT",
+  "homepage": "https://github.com/willimj3/vaill-docket-tracker",
+  "repository": "https://github.com/willimj3/vaill-docket-tracker",
   "keywords": [
     "litigation",
     "courtlistener",
