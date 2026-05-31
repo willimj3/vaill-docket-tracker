@@ -4,7 +4,7 @@ A Claude Code plugin that scaffolds and maintains a **file-driven litigation-tra
 
 It is the generalized, reproducible form of the *Anthropic PBC v. U.S. Department of War* tracker. You point it at a case (a name or some CourtListener docket URLs), and it produces a Next.js 15 + MDX site that tracks every docket in the matter — district, circuit, and any parallel petitions — with importance-classified filings, RECAP PDF-availability badges, a timeline, parties, and a drafted legal explainer. No database: every fact lives in `data/*.yaml` or MDX and renders at build time.
 
-A daily GitHub Action pulls new filings from CourtListener and commits them; Vercel auto-deploys on push.
+A daily GitHub Action pulls new filings from CourtListener and commits them, and whatever host you connect (Vercel, Netlify, Cloudflare Pages, a self-hosted Node server, …) redeploys on push.
 
 ---
 
@@ -54,7 +54,7 @@ Restart Claude Code (or reload plugins) when prompted, and the two skills, the a
 
 - **`narrative-drafter`** — A subagent the `new` skill delegates to for the legal-narrative layer. It reads the complaint and key opinions from CourtListener and drafts the case explainer, claims, issues, holdings, and glossary — always marked as a draft for the lawyer's verification, with every fact traced to a primary source.
 
-**Bundled template** — `template/` is the complete Next.js 15 + MDX app the `new` skill copies. File-driven, no database, deployable to Vercel as-is.
+**Bundled template** — `template/` is the complete Next.js 15 + MDX app the `new` skill copies. File-driven, no database, deployable as-is to any Next.js host (Vercel, Netlify, Cloudflare Pages, a self-hosted Node server, or a static export to any static host).
 
 ---
 
@@ -91,13 +91,13 @@ You need a few accounts to run the full pipeline. The site itself builds and pre
 
    The workflow uses the built-in `GITHUB_TOKEN` for write access; no other secret is required. (To review syncs on a PR instead of committing to `main`, change the workflow's final `git push` step to open a pull request.)
 
-4. **A Vercel deployment.** Import the GitHub repo into Vercel. It auto-detects Next.js; no special config. Every push to `main` — including the daily sync commits — redeploys the site.
+4. **A host for the site (any Next.js host).** Connect the GitHub repo to your platform of choice — Vercel, Netlify, and Cloudflare Pages all auto-detect Next.js with no special config; you can also self-host with `next start`, or statically export it to any static host if you don't use the optional server features. Every push to `main` — including the daily sync commits — triggers a redeploy.
 
 5. **Email digest for the news layer (optional).** To receive the news digest, set one email provider key plus a cron secret:
    - `RESEND_API_KEY` **or** `POSTMARK_TOKEN`
    - `CRON_SECRET` — a random string that gates the cron handlers (they fail closed without it)
 
-   Configure the feeds and relevance terms in `data/alerts-config.yaml`. The digest only surfaces candidate stories; promotion to the public `/news` page stays a manual `approved: true` flip in `data/news.yaml`. (The Vercel cron monitors are parked by default; the daily GitHub Action is the primary, preferred sync path because the Actions runner can write to the repo and the Vercel serverless filesystem is read-only at runtime.)
+   Configure the feeds and relevance terms in `data/alerts-config.yaml`. The digest only surfaces candidate stories; promotion to the public `/news` page stays a manual `approved: true` flip in `data/news.yaml`. (The cron monitors — shipped as Vercel Cron handlers but adaptable to any scheduler — are parked by default; the daily GitHub Action is the primary, host-agnostic sync path, because the Actions runner can commit to the repo whereas most serverless runtimes have a read-only filesystem.)
 
 **Local requirements:** Node 20+ to build and preview the site; Python 3.12 with `pyyaml` and `requests` to run the data scripts by hand.
 
@@ -125,7 +125,7 @@ npm run dev      # http://localhost:3000
 npm run build    # the gate that catches data/schema mismatches
 ```
 
-When it looks right: `git init`, push to GitHub, add the `COURTLISTENER_TOKEN` secret, import into Vercel — and the tracker keeps itself current.
+When it looks right: `git init`, push to GitHub, add the `COURTLISTENER_TOKEN` secret, and connect the repo to your host — and the tracker keeps itself current.
 
 To pull fresh filings on demand at any time, run `/docket-tracker:sync`.
 
@@ -133,7 +133,7 @@ To pull fresh filings on demand at any time, run `/docket-tracker:sync`.
 
 ## How updates flow
 
-- **Daily, automatic (data layer):** GitHub Action → `scripts/sync_dockets.py` → CourtListener → classify + append new entries → refresh RECAP badges → commit to `main` → Vercel redeploys.
+- **Daily, automatic (data layer):** GitHub Action → `scripts/sync_dockets.py` → CourtListener → classify + append new entries → refresh RECAP badges → commit to `main` → your host redeploys.
 - **As you curate (news layer):** digest surfaces candidates → you flip `approved: true` in `data/news.yaml`.
 - **As your lawyer reviews (legal layer):** edit the drafted MDX and `claims` / `issues` / `holdings` / `glossary` YAML; commit.
 
