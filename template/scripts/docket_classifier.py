@@ -36,6 +36,15 @@ HIGH_PATTERNS = [
         r"\bresponse in opposition\b",
         r"\bper curiam order\b",
         r"\bmandamus\b",
+        # trial-phase milestones (a case that actually reaches trial)
+        r"\bverdict\b",
+        r"\bjury trial\b",
+        r"\bbench trial\b",
+        r"\btrial\b.*\b(held|begun|commenced|completed|concluded)\b",
+        r"\bfindings of fact\b",
+        # case-ending milestones
+        r"\bnotice of settlement\b",
+        r"\b(voluntary dismissal|stipulation of dismissal)\b",
     ]
 ]
 
