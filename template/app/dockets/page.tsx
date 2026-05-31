@@ -11,8 +11,8 @@ export default function DocketsIndexPage() {
   return (
     <div>
       <PageHeading
-        title="Three dockets, one dispute"
-        lede="Each forum addresses a different statutory hook on overlapping facts."
+        title={meta.dockets.length === 1 ? 'One docket' : `${meta.dockets.length} dockets, one matter`}
+        lede="Each docket in the matter, and its filings."
       />
       <div className="grid sm:grid-cols-3 gap-4">
         {meta.dockets.map((d) => (

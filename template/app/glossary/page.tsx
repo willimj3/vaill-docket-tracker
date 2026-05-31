@@ -115,6 +115,6 @@ function categoryLabel(c: GlossaryCategory): string {
 }
 
 function stripSymbols(s: string): string {
-  // For alpha-sorting, treat "§ 3252" as "3252", "(FASCSA)" as "FASCSA".
+  // For alpha-sorting, treat "§ 1983" as "1983", "(APA)" as "APA".
   return s.replace(/[§(),.\s]+/g, '').toLowerCase();
 }
